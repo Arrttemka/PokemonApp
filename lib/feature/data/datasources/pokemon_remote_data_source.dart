@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:pokemon_app/feature/core/error/exceptions.dart';
 import 'package:pokemon_app/feature/data/models/pokemon_model.dart';
-import 'package:pokemon_app/feature/core/utils/constants.dart';
+import '../../../core/error/exceptions.dart';
+import '../../../core/utils/constants.dart';
 
 abstract class PokemonRemoteDataSource {
   Future<PokemonModel> getPokemon(int id);

@@ -41,3 +41,4 @@ void init() {
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton<Connectivity>(() => Connectivity());
 }
+*/

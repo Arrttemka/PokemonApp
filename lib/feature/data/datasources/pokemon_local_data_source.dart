@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:pokemon_app/feature/core/error/exceptions.dart';
 import 'package:pokemon_app/feature/data/models/pokemon_model.dart';
+import '../../../core/error/exceptions.dart';
 
 abstract class PokemonLocalDataSource {
   Future<void> cachePokemon(PokemonModel pokemon);
@@ -15,7 +15,7 @@ class PokemonLocalDataSourceImpl implements PokemonLocalDataSource {
   @override
   Future<void> cachePokemon(PokemonModel pokemon) async {
     var box = await hive.openBox('pokemonBox');
-    box.put(pokemon.name, pokemon.toJson());
+    //box.put(pokemon.name, pokemon.toJson());
     await box.close();
   }
 
