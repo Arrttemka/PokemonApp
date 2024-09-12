@@ -10,10 +10,10 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc({required this.repo}) : super(DashboardInitial()) {
     on<GetPokemonEvent>((event, emit) async {
       emit(DashboardLoading());
-      try{
+      try {
         final model = await repo.getPokemons(event.name);
         emit(DashboardSuccess(model: model));
-      }catch(e){
+      } catch (e) {
         emit(DashboardError());
       }
     });

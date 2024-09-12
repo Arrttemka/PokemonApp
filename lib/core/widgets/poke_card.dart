@@ -31,12 +31,11 @@ class PokeCard extends StatelessWidget {
                 color: AppColors.grey,
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 15, vertical: 21),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 21),
                 child: Text(
                   name,
-                  style: AppFonts.w500s18
-                      .copyWith(color: AppColors.white),
+                  style: AppFonts.w500s18.copyWith(color: AppColors.white),
                 ),
               ),
             ),

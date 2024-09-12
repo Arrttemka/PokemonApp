@@ -8,43 +8,37 @@ class CustomTextField extends StatelessWidget {
     super.key,
   });
 
-
   final Function(String) onChaged;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8), 
-      color: AppColors.grey,
-      ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: AppColors.grey,
+        ),
         height: 31,
         width: 254,
         child: Padding(
           padding: const EdgeInsets.only(top: 15),
           child: TextField(
-            style: AppFonts.w500s12
-                  .copyWith(color: AppColors.darkGreen),
+            style: AppFonts.w500s12.copyWith(color: AppColors.darkGreen),
             onChanged: onChaged,
             decoration: InputDecoration(
-              hintStyle: AppFonts.w500s12
-                  .copyWith(color: AppColors.darkGreen),
+              hintStyle: AppFonts.w500s12.copyWith(color: AppColors.darkGreen),
               hintText: 'Search here...',
               fillColor: AppColors.grey,
               filled: true,
               border: OutlineInputBorder(
-                borderSide:
-                    const BorderSide(color: AppColors.grey),
+                borderSide: const BorderSide(color: AppColors.grey),
                 borderRadius: BorderRadius.circular(8),
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide:
-                    const BorderSide(color: AppColors.grey),
+                borderSide: const BorderSide(color: AppColors.grey),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide:
-                    const BorderSide(color: AppColors.grey),
+                borderSide: const BorderSide(color: AppColors.grey),
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
@@ -52,4 +46,3 @@ class CustomTextField extends StatelessWidget {
         ));
   }
 }
-

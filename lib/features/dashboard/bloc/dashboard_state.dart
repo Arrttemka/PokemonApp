@@ -14,4 +14,3 @@ final class DashboardSuccess extends DashboardState {
 }
 
 final class DashboardError extends DashboardState {}
-

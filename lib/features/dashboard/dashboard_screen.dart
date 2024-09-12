@@ -6,15 +6,14 @@ import 'package:pokemon_app/core/theme/app_fonts.dart';
 import 'package:pokemon_app/core/widgets/custom_text_field.dart';
 import 'package:pokemon_app/core/widgets/poke_card.dart';
 import 'package:pokemon_app/features/dashboard/bloc/dashboard_bloc.dart';
+import 'package:pokemon_app/features/detail_screen/detail_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<DashboardBloc>(context).add(
-        GetPokemonEvent()
-    );
+    BlocProvider.of<DashboardBloc>(context).add(GetPokemonEvent());
     return Scaffold(
         backgroundColor: AppColors.bgColor,
         body: Center(
@@ -57,9 +56,11 @@ class DashboardScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomTextField(onChaged: (val) {BlocProvider.of<DashboardBloc>(context).add(
-                        GetPokemonEvent(name: val),
-                      );
+                    CustomTextField(
+                      onChaged: (val) {
+                        BlocProvider.of<DashboardBloc>(context).add(
+                          GetPokemonEvent(name: val),
+                        );
                       },
                     ),
                     const SizedBox(
@@ -93,15 +94,21 @@ class DashboardScreen extends StatelessWidget {
                 Expanded(
                   child: BlocBuilder<DashboardBloc, DashboardState>(
                     builder: (context, state) {
-                      if(state is DashboardSuccess){
+                      if (state is DashboardSuccess) {
                         return ListView.builder(
                           shrinkWrap: true,
                           itemCount: state.model.results?.length,
-                          itemBuilder: (context,index) => PokeCard(
-                            name: state.model.results?[index].name?? '',
-                            image: state.model.results?[index].imageUrl?? '',
-                            onTap: (){ }
-                          ),
+                          itemBuilder: (context, index) => PokeCard(
+                              name: state.model.results?[index].name ?? '',
+                              image: state.model.results?[index].imageUrl ?? '',
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DetailScreen(),
+                                  ),
+                                );
+                              }),
                         );
                       }
                       return const Text('not found');
