@@ -8,6 +8,8 @@ import 'package:pokemon_app/features/dashboard/repositories/get_pokemon_repo.dar
 import 'features/dashboard/dashboard_screen.dart';
 
 void main(List<String> args) {
+
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
         create: (context) => DashboardBloc(repo: RepositoryProvider.of<GetPokemonRepo>(context),
         ),
         child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             theme: ThemeData(
               textTheme: GoogleFonts.poppinsTextTheme(),
             ),

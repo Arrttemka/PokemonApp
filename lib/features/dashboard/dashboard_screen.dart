@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_app/core/assets/app_images.dart';
 import 'package:pokemon_app/core/theme/app_colors.dart';
 import 'package:pokemon_app/core/theme/app_fonts.dart';
 import 'package:pokemon_app/core/widgets/custom_text_field.dart';
 import 'package:pokemon_app/core/widgets/poke_card.dart';
+import 'package:pokemon_app/features/dashboard/bloc/dashboard_bloc.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<DashboardBloc>(context).add(
+        GetPokemonEvent()
+    );
     return Scaffold(
         backgroundColor: AppColors.bgColor,
         body: Center(
