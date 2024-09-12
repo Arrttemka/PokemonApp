@@ -33,12 +33,14 @@ class PokemonsModel {
 class Results {
   String? name;
   String? url;
+  int? id;
 
   Results({this.name, this.url});
 
   Results.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     url = json['url'];
+    id = int.parse(url!.split('/')[6]);
   }
 
   Map<String, dynamic> toJson() {
@@ -47,4 +49,7 @@ class Results {
     data['url'] = this.url;
     return data;
   }
+
+  String get imageUrl =>
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png';
 }

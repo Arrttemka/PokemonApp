@@ -10,7 +10,7 @@ class DioSettings {
 
  Dio dio = Dio(
   BaseOptions(
-    baseUrl: 'https://sandbox.avn.kg/wp/api/mobile/v1/',
+    baseUrl: 'https://pokeapi.co/api/v2/',
     contentType: 'application/json',
     headers: {'Accept': 'application/json'},
     connectTimeout: Duration(seconds: 20),

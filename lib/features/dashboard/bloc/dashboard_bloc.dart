@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:pokemon_app/features/dashboard/models/pokemon_model.dart';
 import 'package:pokemon_app/features/dashboard/repositories/get_pokemon_repo.dart';
@@ -10,7 +11,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     on<GetPokemonEvent>((event, emit) async {
       emit(DashboardLoading());
       try{
-        final model = await repo.getPokemons();
+        final model = await repo.getPokemons(event.name);
         emit(DashboardSuccess(model: model));
       }catch(e){
         emit(DashboardError());

@@ -41,11 +41,13 @@ class PokeCard extends StatelessWidget {
               ),
             ),
             Positioned(
-                top: 24,
+                top: 0,
                 right: 0,
-                child: Image.asset(
+                bottom: 40,
+                child: Image.network(
                   image,
                   width: 120,
+                  height: 1,
                 ))
           ],
         ),

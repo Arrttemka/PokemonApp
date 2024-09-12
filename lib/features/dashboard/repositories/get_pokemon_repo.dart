@@ -8,8 +8,13 @@ class GetPokemonRepo {
     required this.dio
   });
 
-  Future<PokemonsModel> getPokemons() async {
-    final response = await dio.get('pokemon/');
+  Future<PokemonsModel> getPokemons(String? name) async {
+    final response = await dio.get(
+      'pokemon/',
+        queryParameters: {
+          'name'  : name,
+       },
+    );
 
     return PokemonsModel.fromJson(response.data);
   }

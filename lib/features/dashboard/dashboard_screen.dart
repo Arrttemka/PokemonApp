@@ -57,7 +57,11 @@ class DashboardScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomTextField(onChaged: (val) {}),
+                    CustomTextField(onChaged: (val) {BlocProvider.of<DashboardBloc>(context).add(
+                        GetPokemonEvent(name: val),
+                      );
+                      },
+                    ),
                     const SizedBox(
                       width: 15,
                     ),
@@ -74,9 +78,9 @@ class DashboardScreen extends StatelessWidget {
                           color: AppColors.darkGreen,
                           icon: const Icon(
                             Icons.search,
-                              color: AppColors.darkGreen,
-                              size: 20,
-                              ),
+                            color: AppColors.darkGreen,
+                            size: 20,
+                          ),
                           onPressed: () {},
                         ),
                       ),
@@ -87,15 +91,21 @@ class DashboardScreen extends StatelessWidget {
                   height: 22,
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: 20,
-                    itemBuilder: (context, index) => PokeCard(
-                      name: "Bulbik", 
-                      image: AppImages.bulb, 
-                    onTap:() {
-                      
+                  child: BlocBuilder<DashboardBloc, DashboardState>(
+                    builder: (context, state) {
+                      if(state is DashboardSuccess){
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.model.results?.length,
+                          itemBuilder: (context,index) => PokeCard(
+                            name: state.model.results?[index].name?? '',
+                            image: state.model.results?[index].imageUrl?? '',
+                            onTap: (){ }
+                          ),
+                        );
+                      }
+                      return const Text('not found');
                     },
-                    ),
                   ),
                 ),
               ],
@@ -104,4 +114,3 @@ class DashboardScreen extends StatelessWidget {
         ));
   }
 }
-
