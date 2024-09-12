@@ -11,6 +11,7 @@ class GetPokemonRepo {
       'pokemon/',
       queryParameters: {
         'name': name,
+        'limit': '-1',
       },
     );
 

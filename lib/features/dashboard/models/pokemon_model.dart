@@ -31,22 +31,40 @@ class PokemonsModel {
 }
 
 class Results {
+  int? id;
   String? name;
   String? url;
-  int? id;
+  int? height;
+  int? weight;
+  List<String>? types;
 
-  Results({this.name, this.url});
+  Results(
+      {this.id,
+        this.name,
+        this.url,
+        this.height,
+        this.weight,
+        this.types});
 
   Results.fromJson(Map<String, dynamic> json) {
+
     name = json['name'];
     url = json['url'];
+    weight = json['weight'];
+    height = json['height'];
     id = int.parse(url!.split('/')[6]);
+    types = json['types'] != null
+        ? List<String>.from(json['types'].map((type) => type['type']['name']))
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
     data['url'] = this.url;
+    data['weight'] = this.weight;
+    data['height'] = this.height;
+    data['types'] = this.types;
     return data;
   }
 

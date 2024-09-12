@@ -6,6 +6,7 @@ import 'package:pokemon_app/core/theme/app_fonts.dart';
 import 'package:pokemon_app/core/widgets/custom_text_field.dart';
 import 'package:pokemon_app/core/widgets/poke_card.dart';
 import 'package:pokemon_app/features/dashboard/bloc/dashboard_bloc.dart';
+import 'package:pokemon_app/features/dashboard/models/pokemon_model.dart';
 import 'package:pokemon_app/features/detail_screen/detail_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -18,7 +19,7 @@ class DashboardScreen extends StatelessWidget {
         backgroundColor: AppColors.bgColor,
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 40),
+            padding: const EdgeInsets.fromLTRB(40, 60, 40, 0),
             child: Column(
               children: [
                 Row(
@@ -105,7 +106,8 @@ class DashboardScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const DetailScreen(),
+                                    builder: (context) => DetailScreen(model: state.model.results?[index] ?? Results(),
+                                    ),
                                   ),
                                 );
                               }),

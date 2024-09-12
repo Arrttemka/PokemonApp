@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:pokemon_app/core/assets/app_images.dart';
 import 'package:pokemon_app/core/theme/app_colors.dart';
 import 'package:pokemon_app/core/theme/app_fonts.dart';
+import 'package:pokemon_app/features/dashboard/models/pokemon_model.dart';
 
 class DetailScreen extends StatelessWidget {
-  const DetailScreen({super.key});
+  const DetailScreen({super.key, required this.model});
+
+  final Results model;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +15,7 @@ class DetailScreen extends StatelessWidget {
       backgroundColor: AppColors.bgColor,
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 40),
+          padding: const EdgeInsets.fromLTRB(40, 60, 40, 0),
           child: Column(
             children: [
               Row(
@@ -33,19 +36,33 @@ class DetailScreen extends StatelessWidget {
                 height: 22,
               ),
               Text(
-                'Pokemon list',
+                '${model.name}',
                 style: AppFonts.w600s24.copyWith(color: AppColors.lightGrey),
               ),
               const SizedBox(
                 height: 22,
               ),
-              Text(
-                'Find the pokemon you want',
-                style: AppFonts.w500s14.copyWith(color: AppColors.lightGrey),
-              ),
               const SizedBox(
                 height: 12,
               ),
+              Text(
+                '${model.types}',
+                style: AppFonts.w600s24.copyWith(color: AppColors.lightGrey),
+              ),
+              Text(
+                '${model.weight}',
+                style: AppFonts.w600s24.copyWith(color: AppColors.lightGrey),
+              ),
+              Text(
+                '${model.height}',
+                style: AppFonts.w600s24.copyWith(color: AppColors.lightGrey),
+              ),
+              Image.asset(
+                AppImages.big,
+                width: 400,
+                height: 400,
+                fit: BoxFit.cover
+              )
             ],
           ),
         ),
