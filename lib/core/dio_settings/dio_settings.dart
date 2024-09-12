@@ -21,12 +21,12 @@ void setup() async {
   final interceptors = dio.interceptors;
 
   interceptors.clear();
-  final loginterceptor = Loginterceptor(
+  final loginterceptor = LogInterceptor(
     request: true,
-  requestBody: true,
-  requestHeader: true,
-  responseBody: true,
-  responseHeader: true,
+    requestBody: true,
+    requestHeader: true,
+    responseBody: true,
+    responseHeader: true,
 );
 
 final headerInterceptors = QueuedInterceptorsWrapper(
@@ -38,6 +38,6 @@ final headerInterceptors = QueuedInterceptorsWrapper(
     return handler.next(response);
   },
 );
-  interceptors.addAll([if (kDebugMode) logInterceptor, headerInterceptors]);
+  interceptors.addAll([if (kDebugMode) loginterceptor, headerInterceptors]);
   }
 }
