@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pokemon_app/core/assets/app_images.dart';
 import 'package:pokemon_app/core/theme/app_colors.dart';
 import 'package:pokemon_app/core/theme/app_fonts.dart';
+import 'package:pokemon_app/core/widgets/pokemonTypeView.dart';
 import 'package:pokemon_app/features/dashboard/models/pokemon_model.dart';
 
 class DetailScreen extends StatelessWidget {
@@ -45,6 +46,10 @@ class DetailScreen extends StatelessWidget {
               const SizedBox(
                 height: 12,
               ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: model.types!.map((type) => pokemonTypeView(type)).toList(),
+              ),
               Text(
                 '${model.types}',
                 style: AppFonts.w600s24.copyWith(color: AppColors.lightGrey),
@@ -57,11 +62,7 @@ class DetailScreen extends StatelessWidget {
                 '${model.height}',
                 style: AppFonts.w600s24.copyWith(color: AppColors.lightGrey),
               ),
-              Image.asset(
-                AppImages.big,
-                width: 400,
-                height: 400,
-                fit: BoxFit.cover
+              Image.network(model.imageUrl ?? '',
               )
             ],
           ),

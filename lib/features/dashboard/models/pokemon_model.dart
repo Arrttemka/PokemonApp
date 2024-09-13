@@ -58,6 +58,14 @@ class Results {
         : null;
   }
 
+  void updateFromDetailedJson(Map<String, dynamic> json) {
+    weight = json['weight'];
+    height = json['height'];
+    types = json['types'] != null
+        ? List<String>.from(json['types'].map((type) => type['type']['name']))
+        : null;
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;

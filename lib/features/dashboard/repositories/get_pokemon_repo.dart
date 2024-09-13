@@ -11,10 +11,18 @@ class GetPokemonRepo {
       'pokemon/',
       queryParameters: {
         'name': name,
-        'limit': '-1',
+        'limit': '20',
       },
     );
 
-    return PokemonsModel.fromJson(response.data);
+    PokemonsModel model = PokemonsModel.fromJson(response.data);
+
+    // Fetch detailed information for each Pokemon
+    for (var result in model.results!) {
+      final detailResponse = await dio.get(result.url!);
+      result.updateFromDetailedJson(detailResponse.data);
+    }
+
+    return model;
   }
 }
