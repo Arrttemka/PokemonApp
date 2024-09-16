@@ -6,11 +6,10 @@ import 'package:pokemon_app/core/widgets/app_header.dart';
 import 'package:pokemon_app/core/widgets/pokemon_type_view.dart';
 import 'package:pokemon_app/features/dashboard/models/pokemon_model.dart';
 import 'package:pokemon_app/features/detail_screen/cubit/detail_cubit.dart';
-
-import '../dashboard/repositories/get_pokemon_repo.dart';
+import 'package:pokemon_app/features/dashboard/repositories/get_pokemon_repo.dart';
 
 class DetailScreen extends StatelessWidget {
-  const DetailScreen({super.key, required this.model});
+  const DetailScreen({Key? key, required this.model}) : super(key: key);
 
   final Results model;
 
@@ -28,13 +27,40 @@ class DetailScreen extends StatelessWidget {
             if (state is DetailLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is DetailError) {
-              return Center(child: Text(state.message));
+              return _buildErrorView(context, state.message);
             } else if (state is DetailLoaded) {
               return _buildPokemonDetails(context, state.pokemon);
             }
             return const SizedBox.shrink();
           },
         ),
+      ),
+    );
+  }
+
+  Widget _buildErrorView(BuildContext context, String message) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Error loading details',
+            style: AppFonts.w600s24.copyWith(color: AppColors.white),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: AppFonts.w500s18.copyWith(color: AppColors.white),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              context.read<DetailCubit>().loadPokemonDetails();
+            },
+            child: Text('Retry', style: AppFonts.w500s18),
+          ),
+        ],
       ),
     );
   }
@@ -57,6 +83,12 @@ class DetailScreen extends StatelessWidget {
                     child: Image.network(
                       pokemon.imageUrl ?? '',
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: AppColors.lightGrey,
+                          child: Icon(Icons.error, size: 50, color: AppColors.white),
+                        );
+                      },
                     ),
                   ),
                 ),

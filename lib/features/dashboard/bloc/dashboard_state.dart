@@ -13,4 +13,10 @@ final class DashboardSuccess extends DashboardState {
   DashboardSuccess({required this.model});
 }
 
-final class DashboardError extends DashboardState {}
+final class DashboardError extends DashboardState {
+  final String message;
+
+  DashboardError({required this.message});
+}
+
+final class DashboardEmpty extends DashboardState {}

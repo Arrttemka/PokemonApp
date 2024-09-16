@@ -5,12 +5,40 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pokemon_app/core/dio_settings/dio_settings.dart';
 import 'package:pokemon_app/features/dashboard/bloc/dashboard_bloc.dart';
 import 'package:pokemon_app/features/dashboard/repositories/get_pokemon_repo.dart';
+import 'package:pokemon_app/core/database/database_helper.dart';
+import 'package:pokemon_app/features/dashboard/dashboard_screen.dart';
 
-import 'features/dashboard/dashboard_screen.dart';
 
-void main(List<String> args) {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+
+  DatabaseHelper? dbHelper;
+
+  final dioSettings = DioSettings();
+  print('Dio baseUrl: ${dioSettings.dio.options.baseUrl}');
+
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: dioSettings),
+        RepositoryProvider(
+          create: (context) => GetPokemonRepo(
+            dio: dioSettings.dio, dbHelper: dbHelper!,
+          ),
+        ),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<DashboardBloc>(
+            create: (context) => DashboardBloc(
+              repo: context.read<GetPokemonRepo>(),
+            ),
+          ),
+        ],
+        child: const MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,31 +46,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(
-          create: (context) => DioSettings(),
-        ),
-        RepositoryProvider(
-          create: (context) => GetPokemonRepo(
-            dio: RepositoryProvider.of<DioSettings>(context).dio,
-          ),
-        ),
-        BlocProvider<DashboardBloc>(
-          create: (context) => DashboardBloc(repo: GetPokemonRepo(dio: Dio())),
-        ),
-      ],
-      child: BlocProvider(
-        create: (context) => DashboardBloc(
-          repo: RepositoryProvider.of<GetPokemonRepo>(context),
-        ),
-        child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              textTheme: GoogleFonts.poppinsTextTheme(),
-            ),
-            home: const DashboardScreen()),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(),
       ),
-    ); // MaterialApp
+      home: const DashboardScreen(),
+    );
   }
 }

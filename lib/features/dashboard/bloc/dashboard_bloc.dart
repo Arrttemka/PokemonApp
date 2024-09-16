@@ -10,12 +10,27 @@ part 'dashboard_state.dart';
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardBloc({required this.repo}) : super(DashboardInitial()) {
     on<GetPokemonEvent>((event, emit) async {
+      print('GetPokemonEvent triggered');
       emit(DashboardLoading());
       try {
         final model = await repo.getPokemons(event.name);
-        emit(DashboardSuccess(model: model));
+        print('Pokemons fetched: ${model.results?.length ?? 0}');
+        if (model.results?.isEmpty ?? true) {
+          print('No pokemons found, emitting DashboardEmpty');
+          emit(DashboardEmpty());
+        } else {
+          print('Emitting DashboardSuccess');
+          emit(DashboardSuccess(model: model.copyWith()));
+        }
       } catch (e) {
-        emit(DashboardError());
+        print('Error in DashboardBloc: $e');
+        if (e.toString().contains('No internet connection and no local data available')) {
+          emit(DashboardError(message: 'No internet connection and no local data. Please connect to the internet for first launch.'));
+        } else if (e.toString().contains('No internet connection')) {
+          emit(DashboardError(message: 'No internet connection. Showing cached data.'));
+        } else {
+          emit(DashboardError(message: 'Failed to load Pokemons. Error: $e'));
+        }
       }
     });
 
@@ -24,7 +39,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         await repo.getPokemonDetails(event.pokemon);
         emit(DashboardSuccess(model: (state as DashboardSuccess).model));
       } catch (e) {
-        emit(DashboardError());
+        emit(DashboardError(message: 'Error when loading...'));
       }
     });
   }
