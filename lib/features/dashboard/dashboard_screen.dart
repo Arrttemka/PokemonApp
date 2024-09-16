@@ -55,7 +55,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       children: [
         Text(
           'PokeApp',
-          style: AppFonts.w700s48.copyWith(color: Colors.black),
+          style: AppFonts.w700s48.copyWith(color: Colors.white),
         ),
         const SizedBox(width: 7),
         Image.asset(
