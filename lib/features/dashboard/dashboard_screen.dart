@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_app/core/assets/app_images.dart';
 import 'package:pokemon_app/core/theme/app_colors.dart';
 import 'package:pokemon_app/core/theme/app_fonts.dart';
-import 'package:pokemon_app/core/widgets/custom_text_field.dart';
 import 'package:pokemon_app/core/widgets/poke_card.dart';
 import 'package:pokemon_app/features/dashboard/bloc/dashboard_bloc.dart';
 import 'package:pokemon_app/features/dashboard/models/pokemon_model.dart';
@@ -50,14 +49,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-
   Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           'PokeApp',
-          style: AppFonts.w700s48.copyWith(color: AppColors.white),
+          style: AppFonts.w700s48.copyWith(color: Colors.black),
         ),
         const SizedBox(width: 7),
         Image.asset(

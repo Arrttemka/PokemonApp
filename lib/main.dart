@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,12 +7,10 @@ import 'package:pokemon_app/features/dashboard/repositories/get_pokemon_repo.dar
 import 'package:pokemon_app/core/database/database_helper.dart';
 import 'package:pokemon_app/features/dashboard/dashboard_screen.dart';
 
-
-void main() async {
+Future<void> initializeApp() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  DatabaseHelper? dbHelper;
-
+  final dbHelper = await DatabaseHelper.instance;
   final dioSettings = DioSettings();
   print('Dio baseUrl: ${dioSettings.dio.options.baseUrl}');
 
@@ -23,7 +20,8 @@ void main() async {
         RepositoryProvider.value(value: dioSettings),
         RepositoryProvider(
           create: (context) => GetPokemonRepo(
-            dio: dioSettings.dio, dbHelper: dbHelper!,
+            dio: dioSettings.dio,
+            dbHelper: dbHelper,
           ),
         ),
       ],
@@ -41,6 +39,10 @@ void main() async {
   );
 }
 
+void main() {
+  initializeApp();
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -49,7 +51,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme: GoogleFonts.poppinsTextTheme(),
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(
+          bodyColor: Colors.black,
+          displayColor: Colors.black,
+        ),
+        primaryTextTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).primaryTextTheme).apply(
+          bodyColor: Colors.black,
+          displayColor: Colors.black,
+        ),
       ),
       home: const DashboardScreen(),
     );
