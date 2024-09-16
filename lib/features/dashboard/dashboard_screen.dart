@@ -52,45 +52,7 @@ class DashboardScreen extends StatelessWidget {
                   style: AppFonts.w500s14.copyWith(color: AppColors.lightGrey),
                 ),
                 const SizedBox(
-                  height: 12,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomTextField(
-                      onChaged: (val) {
-                        BlocProvider.of<DashboardBloc>(context).add(
-                          GetPokemonEvent(name: val),
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      height: 31,
-                      width: 31,
-                      decoration: BoxDecoration(
-                        color: AppColors.grey,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: IconButton(
-                          color: AppColors.darkGreen,
-                          icon: const Icon(
-                            Icons.search,
-                            color: AppColors.darkGreen,
-                            size: 20,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 22,
+                  height: 10,
                 ),
                 Expanded(
                   child: BlocBuilder<DashboardBloc, DashboardState>(
@@ -99,18 +61,22 @@ class DashboardScreen extends StatelessWidget {
                         return ListView.builder(
                           shrinkWrap: true,
                           itemCount: state.model.results?.length,
-                          itemBuilder: (context, index) => PokeCard(
-                              name: state.model.results?[index].name ?? '',
-                              image: state.model.results?[index].imageUrl ?? '',
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailScreen(model: state.model.results?[index] ?? Results(),
+                          itemBuilder: (context, index) =>
+                              PokeCard(
+                                name: state.model.results?[index].name ?? '',
+                                image: state.model.results?[index].imageUrl ?? '',
+                                onTap: () {
+                                  final pokemon = state.model.results?[index] ?? Results();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailScreen(
+                                        model: pokemon,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }),
+                                  );
+                                },
+                              ),
                         );
                       }
                       return const Text('not found');

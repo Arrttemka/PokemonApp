@@ -7,3 +7,8 @@ class GetPokemonEvent extends DashboardEvent {
   final String? name;
   GetPokemonEvent({this.name});
 }
+
+class GetPokemonDetailsEvent extends DashboardEvent {
+  final Results pokemon;
+  GetPokemonDetailsEvent(this.pokemon);
+}

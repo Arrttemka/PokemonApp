@@ -47,8 +47,7 @@ class Results {
         this.types});
 
   Results.fromJson(Map<String, dynamic> json) {
-
-    name = json['name'];
+    name = capitalizeFirstLetter(json['name']);
     url = json['url'];
     weight = json['weight'];
     height = json['height'];
@@ -74,6 +73,11 @@ class Results {
     data['height'] = this.height;
     data['types'] = this.types;
     return data;
+  }
+
+  String capitalizeFirstLetter(String text) {
+    if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1);
   }
 
   String get imageUrl =>

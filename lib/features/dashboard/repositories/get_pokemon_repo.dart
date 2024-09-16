@@ -11,17 +11,18 @@ class GetPokemonRepo {
       'pokemon/',
       queryParameters: {
         'name': name,
-        'limit': '20',
+        'limit': '-1',
       },
     );
 
     PokemonsModel model = PokemonsModel.fromJson(response.data);
-
-    for (var result in model.results!) {
-      final detailResponse = await dio.get(result.url!);
-      result.updateFromDetailedJson(detailResponse.data);
-    }
-
     return model;
+  }
+
+  Future<void> getPokemonDetails(Results pokemon) async {
+    if (pokemon.height == null || pokemon.weight == null) {
+      final detailResponse = await dio.get(pokemon.url!);
+      pokemon.updateFromDetailedJson(detailResponse.data);
+    }
   }
 }
