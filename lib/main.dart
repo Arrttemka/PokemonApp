@@ -52,12 +52,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(
-          bodyColor: Colors.black,
-          displayColor: Colors.black,
+          bodyColor: Colors.white,
+          displayColor: Colors.white,
         ),
         primaryTextTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).primaryTextTheme).apply(
-          bodyColor: Colors.black,
-          displayColor: Colors.black,
+          bodyColor: Colors.white,
+          displayColor: Colors.white,
         ),
       ),
       home: const DashboardScreen(),
