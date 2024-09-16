@@ -5,7 +5,9 @@ import 'package:pokemon_app/core/theme/app_fonts.dart';
 import 'package:pokemon_app/core/widgets/app_header.dart';
 import 'package:pokemon_app/core/widgets/pokemon_type_view.dart';
 import 'package:pokemon_app/features/dashboard/models/pokemon_model.dart';
-import 'package:pokemon_app/features/dashboard/bloc/dashboard_bloc.dart';
+import 'package:pokemon_app/features/detail_screen/cubit/detail_cubit.dart';
+
+import '../dashboard/repositories/get_pokemon_repo.dart';
 
 class DetailScreen extends StatelessWidget {
   const DetailScreen({super.key, required this.model});
@@ -14,71 +16,84 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bgColor,
-      body: FutureBuilder(
-        future: _loadPokemonDetails(context),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            return _buildPokemonDetails();
-          }
-        },
+    return BlocProvider(
+      create: (context) => DetailCubit(
+        repo: context.read<GetPokemonRepo>(),
+        initialPokemon: model,
+      ),
+      child: Scaffold(
+        backgroundColor: AppColors.bgColor,
+        body: BlocBuilder<DetailCubit, DetailState>(
+          builder: (context, state) {
+            if (state is DetailLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is DetailError) {
+              return Center(child: Text(state.message));
+            } else if (state is DetailLoaded) {
+              return _buildPokemonDetails(context, state.pokemon);
+            }
+            return const SizedBox.shrink();
+          },
+        ),
       ),
     );
   }
 
-  Future<void> _loadPokemonDetails(BuildContext context) async {
-    final dashboardBloc = BlocProvider.of<DashboardBloc>(context);
-    await dashboardBloc.repo.getPokemonDetails(model);
-  }
-
-  Widget _buildPokemonDetails() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(40, 60, 40, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const AppHeader(),
-            const SizedBox(height: 40),
-            AspectRatio(
-              aspectRatio: 1,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  model.imageUrl ?? '',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              model.name ?? '',
-              style: AppFonts.w600s24.copyWith(color: AppColors.white),
-            ),
-            const SizedBox(height: 20),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: model.types?.map(pokemonTypeView).toList() ?? [],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  Widget _buildPokemonDetails(BuildContext context, Results pokemon) {
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(40, 60, 40, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Weight: ${model.weight}',
-                    style: AppFonts.w500s18.copyWith(color: AppColors.white)),
-                Text('Height: ${model.height}',
-                    style: AppFonts.w500s18.copyWith(color: AppColors.white)),
+                const AppHeader(),
+                const SizedBox(height: 40),
+                AspectRatio(
+                  aspectRatio: 1,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      pokemon.imageUrl ?? '',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  pokemon.name ?? '',
+                  style: AppFonts.w600s24.copyWith(color: AppColors.white),
+                ),
+                const SizedBox(height: 20),
+                Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: pokemon.types?.map(pokemonTypeView).toList() ?? [],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text('Weight: ${pokemon.weight}',
+                        style: AppFonts.w500s18.copyWith(color: AppColors.white)),
+                    Text('Height: ${pokemon.height}',
+                        style: AppFonts.w500s18.copyWith(color: AppColors.white)),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
-      ),
+        Positioned(
+          top: 40,
+          left: 10,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: AppColors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
+      ],
     );
   }
 }

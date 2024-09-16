@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
           create: (context) => GetPokemonRepo(
             dio: RepositoryProvider.of<DioSettings>(context).dio,
           ),
+        ),
+        BlocProvider<DashboardBloc>(
+          create: (context) => DashboardBloc(repo: GetPokemonRepo(dio: Dio())),
         ),
       ],
       child: BlocProvider(

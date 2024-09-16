@@ -12,6 +12,7 @@ dependencies:
   flutter_native_splash: ^2.4.1
   google_fonts: ^6.2.1
   dio: ^5.7.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -25,4 +26,9 @@ flutter:
 
   assets:
     - assets/images/
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/icon.png"
 
