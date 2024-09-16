@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:pokemon_app/features/dashboard/models/pokemon_model.dart';
+import 'package:pokemon_app/features/dashboard/models/results_model.dart';
 import 'package:pokemon_app/core/database/database_helper.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -28,14 +29,11 @@ class GetPokemonRepo {
         if (isFirstLaunch) {
           await _saveInitialPokemonsLocally();
           await dbHelper.setFirstLaunch(false);
-          print('First launch completed, initial pokemons saved');
         }
 
         return model;
       } catch (e) {
-        print('Error fetching pokemons online: $e');
         if (hasLocalData) {
-          print('Falling back to local data');
           final localPokemons = await dbHelper.getAllPokemons();
           return PokemonsModel(results: localPokemons);
         }
@@ -43,7 +41,6 @@ class GetPokemonRepo {
       }
     } else {
       if (hasLocalData) {
-        print('Loading local data');
         final localPokemons = await dbHelper.getAllPokemons();
         return PokemonsModel(results: localPokemons);
       } else {
@@ -93,12 +90,10 @@ class GetPokemonRepo {
         await dbHelper.insertPokemon(pokemon);
       }
     } catch (e) {
-      print('Error getting Pokemon details: $e');
       final cachedPokemon = await dbHelper.getPokemon(pokemon.id!);
       if (cachedPokemon != null) {
         pokemon.updateFromDetailedJson(cachedPokemon.toJson());
       } else {
-        // Если покемон не найден в кэше, пробрасываем ошибку
         throw Exception('Failed to load Pokemon details: $e');
       }
     }

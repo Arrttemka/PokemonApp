@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:pokemon_app/features/dashboard/models/pokemon_model.dart';
+import 'package:pokemon_app/features/dashboard/models/results_model.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
@@ -42,7 +42,6 @@ class DatabaseHelper {
   Future<List<Results>> getAllPokemons() async {
     final db = await database;
     final maps = await db.query('pokemons');
-    print('Fetched ${maps.length} pokemons from local database');
     return maps.map((map) {
       var pokemonMap = Map<String, dynamic>.from(map);
       if (pokemonMap['types'] is String) {
@@ -70,7 +69,7 @@ class DatabaseHelper {
   Future<void> setFirstLaunch(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('first_launch', value);
-    print('Set first launch to $value');
+
   }
 
   Future<bool> isFirstLaunch() async {

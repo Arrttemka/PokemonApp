@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:pokemon_app/features/dashboard/models/pokemon_model.dart';
+import 'package:pokemon_app/features/dashboard/models/results_model.dart';
 import 'package:pokemon_app/features/dashboard/repositories/get_pokemon_repo.dart';
 
 part 'dashboard_event.dart';
@@ -14,16 +15,12 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       emit(DashboardLoading());
       try {
         final model = await repo.getPokemons(event.name);
-        print('Pokemons fetched: ${model.results?.length ?? 0}');
         if (model.results?.isEmpty ?? true) {
-          print('No pokemons found, emitting DashboardEmpty');
           emit(DashboardEmpty());
         } else {
-          print('Emitting DashboardSuccess');
           emit(DashboardSuccess(model: model.copyWith()));
         }
       } catch (e) {
-        print('Error in DashboardBloc: $e');
         if (e.toString().contains('No internet connection and no local data available')) {
           emit(DashboardError(message: 'No internet connection and no local data. Please connect to the internet for first launch.'));
         } else if (e.toString().contains('No internet connection')) {

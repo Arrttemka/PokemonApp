@@ -4,7 +4,7 @@ import 'package:pokemon_app/core/theme/app_colors.dart';
 import 'package:pokemon_app/core/theme/app_fonts.dart';
 import 'package:pokemon_app/core/widgets/app_header.dart';
 import 'package:pokemon_app/core/widgets/pokemon_type_view.dart';
-import 'package:pokemon_app/features/dashboard/models/pokemon_model.dart';
+import 'package:pokemon_app/features/dashboard/models/results_model.dart';
 import 'package:pokemon_app/features/detail_screen/cubit/detail_cubit.dart';
 import 'package:pokemon_app/features/dashboard/repositories/get_pokemon_repo.dart';
 

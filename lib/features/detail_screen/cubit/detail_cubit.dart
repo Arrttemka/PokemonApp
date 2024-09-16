@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon_app/features/dashboard/models/pokemon_model.dart';
+import 'package:pokemon_app/features/dashboard/models/results_model.dart';
+
 import 'package:pokemon_app/features/dashboard/repositories/get_pokemon_repo.dart';
 
 
